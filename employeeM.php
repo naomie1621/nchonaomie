@@ -40,24 +40,24 @@ class EmployeeModel {
     }
    
 
- public function add($EmployeeID, $NationalIDNumber, $ContactID,   
-                         $Title, $BirthDate, $Gender, $HireDate)
-    {
-        $requete="INSERT INTO `employee` (`EmployeeID`, `NationalIDNumber`, `ContactID`,`Title`, `BirthDate`, `Gender`, `HireDate`)
-         VALUES ('$EmployeeID', '$NationalIDNumber', '$ContactID', '$Title', '$BirthDate', '$Gender', '$HireDate')";
-        //print_r($requete);
-        try{
-         $db=new pdo('mysql:host=localhost;dbname=adw;charset=utf8','root','');
-         $resultat=$db->prepare($requete);    
+ // public function add($EmployeeID, $NationalIDNumber, $ContactID,   
+ //                         $Title, $BirthDate, $Gender, $HireDate)
+ //    {
+ //        $requete="INSERT INTO `employee` (`EmployeeID`, `NationalIDNumber`, `ContactID`,`Title`, `BirthDate`, `Gender`, `HireDate`)
+ //         VALUES ('$EmployeeID', '$NationalIDNumber', '$ContactID', '$Title', '$BirthDate', '$Gender', '$HireDate')";
+ //        //print_r($requete);
+ //        try{
+ //         $db=new pdo('mysql:host=localhost;dbname=adw;charset=utf8','root','');
+ //         $resultat=$db->prepare($requete);    
         
-         return $resultat->execute();
-        }
-        catch(PDOException $Ex)
-        {
-        print "Erreur !: " . $e->getMessage() . "<br/>";
-        die();
-        }
-    }
+ //         return $resultat->execute();
+ //        }
+ //        catch(PDOException $Ex)
+ //        {
+ //        print "Erreur !: " . $e->getMessage() . "<br/>";
+ //        die();
+ //        }
+ //    }
 
 
      public function edit($EmployeeID, $NationalIDNumber, $ContactID,   
@@ -71,6 +71,29 @@ class EmployeeModel {
          $db=new pdo('mysql:host=localhost;dbname=adw;charset=utf8','root','');
          $resultat=$db->prepare($requete);        
          return $resultat->execute();
+        }
+        catch(PDOException $Ex)
+        {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+        }
+    }
+    public function add($ContactID,$ContactTitle,$FirstName,$LastName,$EmailAddress,
+                      $EmployeeID, $NationalIDNumber,$EmployeeTitle, $BirthDate, $Gender, $HireDate)
+    {
+        try{
+        $db=new pdo('mysql:host=localhost;dbname=adw;charset=utf8','root','');
+        $requete="INSERT INTO `contact` (`ContactID`, `Title`, `FirstName`,`LastName`, `EmailAddress`)
+        VALUES ('$ContactID', '$ContactTitle', '$FirstName', '$LastName', '$EmailAddress')";
+        $resultat=$db->prepare($requete);
+            if($resultat->execute())
+            {
+                $requete="INSERT INTO `employee` (`EmployeeID`, `NationalIDNumber`, `ContactID`,`Title`, `BirthDate`, `Gender`, `HireDate`)
+                VALUES ('$EmployeeID', '$NationalIDNumber', '$ContactID', '$EmployeeTitle', '$BirthDate', '$Gender', '$HireDate')";
+                $resultat=$db->prepare($requete); 
+                return $resultat->execute();
+            }
+                
         }
         catch(PDOException $Ex)
         {

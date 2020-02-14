@@ -26,6 +26,8 @@ class EmployeeController {
 
 //fonction pour ajouter
       public function add(){
+        // $ContactID,$ContactTitle,$FirstName,$LastName,$EmailAddress,
+        //               $EmployeeID, $NationalIDNumber,$EmployeeTitle, $BirthDate, $Gender, $HireDate
         // $EmployeeID, $NationalIDNumber, $ContactID,$Title, $BirthDate, $Gender, $HireDate
        require_once CLASSES.DS.'view.php';
         $v=new View();     
@@ -34,13 +36,12 @@ class EmployeeController {
             require_once MODELS.DS.'employeeM.php';
             $employeeModel =new employeeModel();
             $employee=$employeeModel;
-            if ($employeeModel->add($_POST["EmployeeID"], $_POST["ContactID"], $_POST["NationalIDNumber"], $_POST["Title"], $_POST["BirthDate"],$_POST["Gender"],$_POST["HireDate"]))
+            if ($employeeModel->add( $_POST["ContactID"],$_POST["ContactTitle"],$_POST["FirstName"],$_POST["LastName"],$_POST["EmailAddress"],$_POST["EmployeeID"], $_POST["NationalIDNumber"], $_POST["EmployeeTitle"], $_POST["BirthDate"],$_POST["Gender"],$_POST["HireDate"]))
             {
                 return $this->list();
             }
         }
-        else   
-            
+        else           
         $v->render('employee','add');
     }
 
